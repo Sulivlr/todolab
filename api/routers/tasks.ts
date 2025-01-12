@@ -41,4 +41,25 @@ tasksRouter.get('/', auth, async (req, res, next) => {
     }
 });
 
+tasksRouter.put('/:id', auth, async (req: RequestWithUser, res, next) => {
+    try {
+        const task = await Task.updateOne({
+                _id: req.params.id,
+                user: req.user?.id,
+            },
+            {
+                title: req.body.title,
+                description: req.body.description ?? null,
+                status: req.body.status,
+            }
+        );
+        if (!task) {
+            res.status(404).send({error: 'Task not found'});
+        }
+        res.send(task)
+    } catch (error) {
+        next(error);
+    }
+});
+
 export default tasksRouter;

@@ -4,7 +4,7 @@ import {UserFields} from "../types";
 import User from "../models/User";
 
 export interface RequestWithUser extends Request {
-    user: HydratedDocument<UserFields>;
+    user?: HydratedDocument<UserFields>;
 }
 
 const auth = async (expressReq: Request, res: Response, next: NextFunction) => {
