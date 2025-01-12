@@ -56,8 +56,8 @@ tasksRouter.put('/:id', auth, async (req: RequestWithUser, res, next) => {
                 runValidators: true,
             }
         );
-        if (!task) {
-            res.status(404).send({error: 'Task not found'});
+        if (task.modifiedCount === 0 || task.acknowledged === true) {
+            res.status(403).send({error: 'Task has not been updated because lack of permission'});
         }
         res.send(task)
     } catch (error) {
@@ -71,7 +71,7 @@ tasksRouter.delete('/:id', auth, async (req: RequestWithUser, res, next) => {
            user: req.user?.id,
        });
        if (!task) {
-           res.status(404).send({error: 'Task not found'});
+           res.status(403).send({error: 'Task not found'});
        }
        res.send(task);
     } catch (error) {
