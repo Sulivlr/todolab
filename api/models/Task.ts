@@ -20,14 +20,11 @@ const TaskSchema = new Schema({
         type: String,
         required: true,
     },
-    description: {
-        type: String,
-        default: null,
-    },
+    description: String,
     status: {
         type: String,
         enum: ['new', 'in_progress', 'done'],
-        required: true,
+        default: 'new',
     },
 });
 

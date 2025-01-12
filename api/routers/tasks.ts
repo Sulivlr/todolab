@@ -26,4 +26,19 @@ tasksRouter.post('/', auth, async (req, res, next) => {
     }
 });
 
+tasksRouter.get('/', auth, async (req, res, next) => {
+    const user = req.query.user;
+    try {
+        let tasks;
+        if (user) {
+            tasks = await Task.find({user}).populate('user', 'user');
+        } else {
+            tasks = await Task.find().populate('user', 'user');
+        }
+        res.send(tasks);
+    } catch (error) {
+        next(error);
+    }
+});
+
 export default tasksRouter;
